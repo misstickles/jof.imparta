@@ -1,5 +1,5 @@
 interface TaskStatusCountProps {
-  type: "pending" | "in-progress" | "completed";
+  type: TaskStatus;
   count: number;
 }
 
