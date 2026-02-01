@@ -10,9 +10,9 @@ public static class ServiceCollectionExtensions
     {
         Guard.ArgumentNotNull(services, nameof(services));
 
-//        services.AddAutoMapper(typeof(TasksProfile));
+        //        services.AddAutoMapper(typeof(TasksProfile));
 
-        //services.AddScoped<IProfileService, ProfileService>();
-        //services.AddScoped<ITaskService, TaskService>();
+        services.AddScoped<IProfileService, ProfileService>();
+        services.AddScoped<ITaskService, TaskService>();
     }
 }

@@ -16,7 +16,9 @@ public partial class ProfileController
     [ProducesResponseType(typeof(ProfileItem), StatusCodes.Status200OK)]
     public async Task<IActionResult> Get(Guid userId)
     {
-        var profile = await this.profileService.GetByUserIdAsync(userId);
+        logger.LogInformation("Getting profile for user");
+
+        var profile = await profileService.GetByUserIdAsync(userId);
 
         return this.Ok(profile);
     }

@@ -1,5 +1,5 @@
 ﻿namespace JoF.Imparta.TaskList.Api.Controllers;
 
-public partial class TasksController
+public partial class TaskController
 {
 }

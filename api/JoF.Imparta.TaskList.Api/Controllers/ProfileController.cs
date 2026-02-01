@@ -16,6 +16,4 @@ using Microsoft.AspNetCore.Mvc;
 [ApiController]
 public partial class ProfileController(ILogger<ProfileController> logger, IProfileService profileService) : ControllerBase
 {
-    private readonly ILogger<ProfileController> logger;
-    private readonly IProfileService profileService;
 }

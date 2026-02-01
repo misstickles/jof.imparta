@@ -1,4 +1,6 @@
-﻿using FluentValidation;
+﻿namespace JoF.Imparta.TaskList.Api.Controllers;
+
+using FluentValidation;
 
 using JoF.Imparta.TaskList.Api.Domain.Models;
 using JoF.Imparta.TaskList.Api.Validation;
@@ -6,8 +8,6 @@ using JoF.Imparta.TaskList.Api.Validation;
 using MediatR;
 
 using Microsoft.AspNetCore.Mvc;
-
-namespace JoF.Imparta.TaskList.Api.Controllers;
 
 public partial class ProfileController
 {
@@ -27,20 +27,23 @@ public partial class ProfileController
         {
             this.RuleFor(q => q.UserId)
                 .SetValidator(new UserIdValidator());
+            this.RuleFor(q => q.ImageBase64String)
+                .SetValidator(new ImageValidator());
         }
-
     }
 
     /// <summary>
     /// Stores a profile image for the given user.
     /// </summary>
     /// <param name="query">The <see cref="Query"/>.</param>
-    /// <returns>True if successful, False with the exception if not successful</returns>
+    /// <returns>The base64 string.  An exception is included if not successful.</returns>
     [HttpPost]
     [ProducesResponseType(typeof(ProfileItem), StatusCodes.Status200OK)]
     public async Task<IActionResult> Post([FromBody] Query query)
     {
-        var profile = await this.profileService.UpdloadAsync(query.UserId, query.ImageBase64String);
+        logger.LogInformation("Uploading profile");
+
+        var profile = await profileService.UpdloadAsync(query.UserId, query.ImageBase64String);
 
         return this.Ok(profile);
     }
