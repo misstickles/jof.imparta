@@ -1,9 +1,12 @@
 namespace JoF.Imparta.TaskList.Api.Controllers;
 
+using Asp.Versioning;
+
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
 [Route("[controller]")]
+[ApiVersion("1")]
 public class WeatherForecastController : ControllerBase
 {
     private static readonly string[] Summaries =
