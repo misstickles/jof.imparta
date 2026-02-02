@@ -1,4 +1,6 @@
-﻿namespace JoF.Imparta.TaskList.Api.Domain.Services;
+﻿using JoF.Imparta.TaskList.Api.Domain.Models;
+
+namespace JoF.Imparta.TaskList.Api.Domain.Services;
 
 public interface IProfileService
 {
@@ -13,7 +15,8 @@ public interface IProfileService
     /// Upload a user's profile image string.
     /// </summary>
     /// <param name="userId">The user id.</param>
-    /// <param name="imageBase64String">The image base 64 string.</param>
-    /// <returns>Success and/or exception if failed.</returns>
-    Task<(string, Exception)> UpdloadAsync(Guid userId, string imageBase64String);
+    /// <param name="imageBytes">The image byte array.</param>
+    /// <param name="contentType">The content type.</param>
+    /// <returns><see cref="ProfileItem"/> of uploaded profile.</returns>
+    Task<ProfileItem> UpdloadAsync(Guid userId, byte[] imageBytes, string contentType);
 }

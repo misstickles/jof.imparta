@@ -1,13 +1,17 @@
-﻿namespace JoF.Imparta.TaskList.Api.Domain.Services;
+﻿using JoF.Imparta.TaskList.Api.Domain.Models;
+
+namespace JoF.Imparta.TaskList.Api.Domain.Services;
 
 public class ProfileService : IProfileService
 {
+    /// <inheritdoc/>
     public Task<string> GetByUserIdAsync(Guid userId)
     {
         return Task.FromResult("done");
     }
 
-    public Task<(string, Exception)> UpdloadAsync(Guid userId, string imageBase64String)
+    /// <inheritdoc/>
+    public Task<ProfileItem> UpdloadAsync(Guid userId, byte[] imageBytes, string contentType)
     {
         throw new NotImplementedException();
     }

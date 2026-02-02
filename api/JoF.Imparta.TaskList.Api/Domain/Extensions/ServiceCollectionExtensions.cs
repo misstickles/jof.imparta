@@ -1,16 +1,16 @@
 ﻿namespace JoF.Imparta.TaskList.Api.Domain.Extensions;
 
+using JoF.Imparta.TaskList.Api.Domain.Guards;
+using JoF.Imparta.TaskList.Api.Domain.Repositories;
 using JoF.Imparta.TaskList.Api.Domain.Services;
-using JoF.Imparta.TaskList.Api.Validation;
-//using JoF.Imparta.TaskList.Api.Profiles;
 
 public static class ServiceCollectionExtensions
 {
-    public static void AddTaskServices(this IServiceCollection services)
+    public static void AddTaskListServices(this IServiceCollection services)
     {
         Guard.ArgumentNotNull(services, nameof(services));
 
-        //        services.AddAutoMapper(typeof(TasksProfile));
+        services.AddSingleton<ITaskRepository, ListTaskRepository>();
 
         services.AddScoped<IProfileService, ProfileService>();
         services.AddScoped<ITaskService, TaskService>();

@@ -2,5 +2,9 @@
 
 public class ProfileItem
 {
-    public string imageBase64String { get; set; } = string.Empty;
+    public Guid UserId { get; set; }
+
+    public byte[] ImageBytes { get; set; } = [];
+
+    public string ContentType { get; set; } = string.Empty;
 }

@@ -18,7 +18,7 @@ public static class ServiceCollectionExtensions
             options =>
             {
                 options.DefaultApiVersion = new ApiVersion(1);
-                options.AssumeDefaultVersionWhenUnspecified = false;
+                options.AssumeDefaultVersionWhenUnspecified = true;
                 options.ReportApiVersions = false;
             }).AddApiExplorer(options =>
             {
@@ -28,6 +28,6 @@ public static class ServiceCollectionExtensions
 
         services.AddValidatorsFromAssemblyContaining<Program>();
 
-        services.AddTaskServices();
+        services.AddTaskListServices();
     }
 }

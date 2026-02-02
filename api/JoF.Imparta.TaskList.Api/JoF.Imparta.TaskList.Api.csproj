@@ -9,18 +9,20 @@
 
   <ItemGroup>
     <Compile Remove="Middleware\**" />
+    <Compile Remove="Profiles\**" />
     <Content Remove="Middleware\**" />
+    <Content Remove="Profiles\**" />
     <EmbeddedResource Remove="Middleware\**" />
+    <EmbeddedResource Remove="Profiles\**" />
     <None Remove="Middleware\**" />
+    <None Remove="Profiles\**" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Asp.Versioning.Mvc" Version="8.1.1" />
     <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.1" />
-    <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="FluentValidation" Version="12.1.1" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1" />
-    <PackageReference Include="MediatR" Version="12.4.1" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.2" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="10.1.1" />
   </ItemGroup>

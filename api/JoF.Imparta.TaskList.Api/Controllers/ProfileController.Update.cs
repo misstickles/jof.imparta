@@ -14,7 +14,8 @@ public partial class ProfileController
     public class Query : IRequest<bool>
     {
         public Guid UserId { get; set; }
-        public string ImageBase64String { get; set; } = string.Empty;
+        public byte[] ImageBytes { get; set; } = [];
+        public string ContentType { get; set; } = string.Empty;
     }
 
     public class QueryValidator : AbstractValidator<Query>
@@ -27,7 +28,7 @@ public partial class ProfileController
         {
             this.RuleFor(q => q.UserId)
                 .SetValidator(new UserIdValidator());
-            this.RuleFor(q => q.ImageBase64String)
+            this.RuleFor(q => q.ImageBytes)
                 .SetValidator(new ImageValidator());
         }
     }
@@ -43,7 +44,7 @@ public partial class ProfileController
     {
         logger.LogInformation("Uploading profile");
 
-        var profile = await profileService.UpdloadAsync(query.UserId, query.ImageBase64String);
+        var profile = await profileService.UpdloadAsync(query.UserId, query.ImageBytes, query.ContentType);
 
         return this.Ok(profile);
     }

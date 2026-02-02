@@ -1,4 +1,4 @@
-﻿namespace JoF.Imparta.TaskList.Api.Validation;
+﻿namespace JoF.Imparta.TaskList.Api.Domain.Guards;
 
 internal static class Guard
 {
