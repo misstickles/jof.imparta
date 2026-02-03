@@ -33,6 +33,9 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 
+# make an exception for this one, as it only contains non-secret config for this poc
+!.env.local
+
 # vercel
 .vercel
 
