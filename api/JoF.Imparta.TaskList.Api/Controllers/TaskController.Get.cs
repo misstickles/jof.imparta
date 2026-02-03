@@ -11,9 +11,9 @@ public partial class TaskController
     /// </summary>
     /// <param name="userId">The user id.</param>
     /// <returns>A <see cref="OkObjectResult"/> list of tasks.</returns>
-    [HttpGet]
-    [ProducesResponseType(typeof(IEnumerable<TaskItem>), StatusCodes.Status200OK)]
-    public async Task<IActionResult> Get([FromQuery] Guid userId)
+    [HttpGet("{userId:guid}")]
+    [ProducesResponseType(typeof(CommonApiResponse), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetAll(Guid userId)
     {
         logger.LogInformation("Getting all tasks for user.");
 

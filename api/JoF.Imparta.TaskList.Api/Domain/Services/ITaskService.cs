@@ -34,15 +34,7 @@ public interface ITaskService
     /// <param name="id">The task id.</param>
     /// <param name="title">The new title.</param>
     /// <param name="description">[Optional] The new description.</param>
-    /// <returns>A new <see cref="CommonApiResponse"/>.</returns>
-    Task<CommonApiResponse> UpdateAsync(Guid taskId, string title, string? description);
-
-    /// <summary>
-    /// Update the task status of the specified task.
-    /// </summary>
-    /// <param name="taskId">The task id.</param>
     /// <param name="newStatus">The new status.</param>
-    /// <returns></returns>
-    /// <remarks>Note: if using is outside namespace, TaskStatus conflicts with System.Threading.Tasks.TaskStatus...</remarks>
-    Task<CommonApiResponse> UpdateStatusAsync(Guid taskId, TaskStatus newStatus);
+    /// <returns>A new <see cref="CommonApiResponse"/>.</returns>
+    Task<CommonApiResponse> UpdateAsync(Guid taskId, string? title, string? description, TaskStatus? status);
 }

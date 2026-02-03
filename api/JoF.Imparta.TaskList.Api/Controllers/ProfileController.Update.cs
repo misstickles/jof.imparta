@@ -5,22 +5,20 @@ using FluentValidation;
 using JoF.Imparta.TaskList.Api.Domain.Models;
 using JoF.Imparta.TaskList.Api.Validation;
 
-using MediatR;
-
 using Microsoft.AspNetCore.Mvc;
 
 public partial class ProfileController
 {
-    public class Query : IRequest<bool>
+    public class CreateProfileQuery
     {
         public Guid UserId { get; set; }
-        public byte[] ImageBytes { get; set; } = [];
+        public string ImageBase64 { get; set; } = string.Empty;
         public string ContentType { get; set; } = string.Empty;
     }
 
-    public class QueryValidator : AbstractValidator<Query>
+    public class CreateProfileQueryValidator : AbstractValidator<CreateProfileQuery>
     {
-        public QueryValidator() {
+        public CreateProfileQueryValidator() {
             this.SetRules();
         }
 
@@ -28,7 +26,7 @@ public partial class ProfileController
         {
             this.RuleFor(q => q.UserId)
                 .SetValidator(new UserIdValidator());
-            this.RuleFor(q => q.ImageBytes)
+            this.RuleFor(q => q.ImageBase64)
                 .SetValidator(new ImageValidator());
         }
     }
@@ -40,11 +38,12 @@ public partial class ProfileController
     /// <returns>The base64 string.  An exception is included if not successful.</returns>
     [HttpPost]
     [ProducesResponseType(typeof(ProfileItem), StatusCodes.Status200OK)]
-    public async Task<IActionResult> Post([FromBody] Query query)
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> Post([FromBody] CreateProfileQuery query)
     {
         logger.LogInformation("Uploading profile");
 
-        var profile = await profileService.UpdloadAsync(query.UserId, query.ImageBytes, query.ContentType);
+        var profile = await profileService.UploadAsync(query.UserId, query.ImageBase64, query.ContentType);
 
         return this.Ok(profile);
     }

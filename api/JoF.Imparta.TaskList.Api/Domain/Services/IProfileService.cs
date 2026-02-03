@@ -8,15 +8,15 @@ public interface IProfileService
     /// Get the user's profile image string.
     /// </summary>
     /// <param name="userId">The user id.</param>
-    /// <returns>Base64 string of image</returns>
-    Task<string> GetByUserIdAsync(Guid userId);
+    /// <returns>A <see cref="CommonApiResponse"/> with Base64 string of image</returns>
+    Task<CommonApiResponse> GetByUserIdAsync(Guid userId);
 
     /// <summary>
     /// Upload a user's profile image string.
     /// </summary>
     /// <param name="userId">The user id.</param>
-    /// <param name="imageBytes">The image byte array.</param>
+    /// <param name="imageBase64">The image base 64.</param>
     /// <param name="contentType">The content type.</param>
-    /// <returns><see cref="ProfileItem"/> of uploaded profile.</returns>
-    Task<ProfileItem> UpdloadAsync(Guid userId, byte[] imageBytes, string contentType);
+    /// <returns>A <see cref="CommonApiResponse"/> of uploaded profile.</returns>
+    Task<CommonApiResponse> UploadAsync(Guid userId, string imageBase64, string contentType);
 }

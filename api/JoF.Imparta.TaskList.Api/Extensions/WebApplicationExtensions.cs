@@ -20,7 +20,6 @@ public static class ApplicationBuilderExtensions
                     options.SwaggerEndpoint(url, name);
                 }
 
-                //        options.SwaggerEndpoint("/openapi/v1.json", "v1");
                 options.RoutePrefix = string.Empty;
             });
         }

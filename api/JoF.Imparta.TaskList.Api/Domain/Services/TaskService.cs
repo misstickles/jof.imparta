@@ -5,7 +5,7 @@ using JoF.Imparta.TaskList.Api.Domain.Exceptions;
 using JoF.Imparta.TaskList.Api.Domain.Models;
 using JoF.Imparta.TaskList.Api.Domain.Repositories;
 
-public class TaskService(ILogger logger, ITaskRepository repository) : ITaskService
+public class TaskService(ILogger<TaskService> logger, ITaskRepository repository) : ITaskService
 {
     /// <inheritdoc/>
     public async Task<CommonApiResponse> CreateAsync(Guid userId, string title, string? description)
@@ -46,22 +46,25 @@ public class TaskService(ILogger logger, ITaskRepository repository) : ITaskServ
     /// <inheritdoc/>
     public async Task<bool> DeleteByIdAsync(Guid taskId, Guid userId)
     {
-        // get the task to ensure we are allowed to delete it
-        var task = await repository.GetById(taskId);
-        if (task is null || !task.UserId.Equals(userId))
-        {
-            throw new TaskNotFoundException(); // wrong exception, but for simplicity!
-        }
-
         var deleted = false;
 
         try
         {
+            // get the task to ensure we are allowed to delete it
+            var task = await repository.GetById(taskId);
+
+            if (task is null || !task.UserId.Equals(userId))
+            {
+                throw new TaskNotFoundException(); // wrong exception, but for simplicity!
+            }
+
             deleted = await repository.DeleteAsync(taskId);
-        } catch (TaskNotFoundException tnfex)
+        }
+        catch (TaskNotFoundException tnfex)
         {
             logger.LogError(tnfex.Message);
-        } catch (Exception ex)
+        }
+        catch (Exception ex)
         {
             logger.LogError(ex.Message);
         }
@@ -98,7 +101,7 @@ public class TaskService(ILogger logger, ITaskRepository repository) : ITaskServ
     }
 
     /// <inheritdoc/>
-    public async Task<CommonApiResponse> UpdateAsync(Guid taskId, string title, string? description)
+    public async Task<CommonApiResponse> UpdateAsync(Guid taskId, string? title, string? description, TaskStatus? status)
     {
         var errors = new List<CommonApiError>();
      
@@ -111,48 +114,9 @@ public class TaskService(ILogger logger, ITaskRepository repository) : ITaskServ
         try
         {
             var existing = await repository.GetById(taskId);
-            existing.Description = description;
-            existing.Title = title;
-
-            response.Result = await repository.UpdateAsync(existing);
-        }
-        catch (TaskNotFoundException tnfex)
-        {
-            errors.Add(new CommonApiError
-            {
-                Message = tnfex.Message
-            });
-            response.HasErrors = true;
-        }
-        catch (Exception ex)
-        {
-            logger.LogError(ex.Message);
-
-            errors.Add(new CommonApiError
-            {
-                Message = "Unknown Error"
-            });
-            response.HasErrors = true;
-        }
-
-        return response;
-    }
-
-    /// <inheritdoc/>
-    public async Task<CommonApiResponse> UpdateStatusAsync(Guid taskId, TaskStatus newStatus)
-    {
-        var errors = new List<CommonApiError>();
-
-        var response = new CommonApiResponse
-        {
-            Errors = null,
-            HasErrors = false,
-        };
-
-        try
-        {
-            var existing = await repository.GetById(taskId);
-            existing.Status = newStatus;
+            if (description is not null) existing.Description = description;
+            if (title is not null) existing.Title = title;
+            if (status is not null) existing.Status = status ?? TaskStatus.Pending;
 
             response.Result = await repository.UpdateAsync(existing);
         }
@@ -164,6 +128,7 @@ public class TaskService(ILogger logger, ITaskRepository repository) : ITaskServ
             {
                 Message = tnfex.Message
             });
+
             response.HasErrors = true;
         }
         catch (Exception ex)
@@ -174,6 +139,7 @@ public class TaskService(ILogger logger, ITaskRepository repository) : ITaskServ
             {
                 Message = "Unknown Error"
             });
+
             response.HasErrors = true;
         }
 

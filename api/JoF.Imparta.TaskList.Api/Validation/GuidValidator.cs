@@ -6,6 +6,9 @@ public class GuidValidator : AbstractValidator<Guid>
 {
     public GuidValidator()
     {
-        RuleFor(guid => guid).NotEmpty();
+        RuleFor(guid => guid)
+            .NotNull()
+            .NotEmpty()
+            .WithMessage("Guid must be valid and not null or empty");
     }
 }

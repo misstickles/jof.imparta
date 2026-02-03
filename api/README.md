@@ -6,13 +6,24 @@
 
 ## Commands
 
-`dotnet new editorconfig`
+- Created with Visual Studio > New ASP.NET Core Web API
+- `dotnet new editorconfig` for code quality
 
-## Key Tools
+## Tools
 
 <!-- prettier-ignore -->
-Tool | | Version | Comment
+Technology | Version
 --- | ---
-MediatR | | Using an old version, to avoid sharing a private API key (still free in this use case)
-AutoMapper | | Using an old version, to avoid sharing a private API key (still free in this use case)
-FluentValidation | | To ensure API inputs are accurate
+C# .NET | 10.0
+ASP\.NET Core | 10.0.2
+
+<!-- prettier-ignore -->
+Tool | Version | Comment
+--- | --- | ---
+Asp.Versioning.Mvc | 8.1.1 | to enable API versions
+Asp.Versioning.Mvc.ApiExplorer | 8.1.1 | To allow OpenAPI to discover the APIs
+FluentValidation | 12.1.1 | To provide validation of inputs
+FluentValidation.DependencyInjectionExtensions | 12.1.1
+Microsoft.AspNetCore.OpenApi | 10.0.2 | To generate an OpenApi json doc
+SharpGrip.FluentValidation.AutoValidation.Mvc | 1.5.0 | Enables automatic validation of inputs
+Swashbuckle.AspNetCore.SwaggerUI | 10.1.1 | UI for OpenApi json doc

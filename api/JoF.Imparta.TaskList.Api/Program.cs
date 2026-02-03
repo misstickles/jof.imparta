@@ -1,4 +1,3 @@
-using JoF.Imparta.TaskList.Api.Domain.Services;
 using JoF.Imparta.TaskList.Api.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);

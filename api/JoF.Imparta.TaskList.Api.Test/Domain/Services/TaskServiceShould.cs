@@ -14,17 +14,17 @@ using Shouldly;
 [TestClass]
 public class TaskServiceShould
 {
-    private readonly Guid userId = new Guid("df5289a0-8f3f-4b94-a29c-ef7a1ecc5092");
-    private readonly Guid taskId = new Guid("8d1a0684-edea-4e34-946a-2ee5d23de0b5");
+    private readonly Guid userId = new("df5289a0-8f3f-4b94-a29c-ef7a1ecc5092");
+    private readonly Guid taskId = new("8d1a0684-edea-4e34-946a-2ee5d23de0b5");
 
-    private readonly Mock<ILogger<ListTaskRepository>> loggerMock;
+    private readonly Mock<ILogger<TaskService>> loggerMock;
     private readonly Mock<ITaskRepository> taskRepositoryMock;
 
     private readonly TaskService sut;
 
     public TaskServiceShould()
     {
-        this.loggerMock = new Mock<ILogger<ListTaskRepository>>();
+        this.loggerMock = new Mock<ILogger<TaskService>>();
         this.taskRepositoryMock = new Mock<ITaskRepository>();
 
         var results = new TaskItem
