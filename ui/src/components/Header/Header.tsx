@@ -36,7 +36,7 @@ export const Header = ({ tasks, profile, loading, error, onAvatarClick }: Header
 
   return (
     <>
-      {error && <Alert severity="error">Profile failed to load. Are the APIs running? {error}</Alert>}
+      {error && <Alert severity="error">Profile failed to load. Are the APIs available? {error}</Alert>}
       <Stack direction={"row"} sx={{ justifyContent: "space-between", alignItems: "center", width: "100%" }}>
         <UserAvatar profile={profile} onAvatarClick={handleAvatarClick} />
         <Typography variant="h4" component={"h6"}>

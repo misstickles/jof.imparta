@@ -15,7 +15,6 @@ import { statusColours } from "@/constants";
 
 import EditIcon from "@mui/icons-material/Edit";
 
-import styles from "@/app/page.module.css";
 import { EditTask } from "../Modify";
 
 interface TaskListProps {
@@ -35,7 +34,7 @@ export const TaskList = ({ tasks, loading, error, onStatusChange, onUpdateTask, 
   }
 
   if (error) {
-    return <Alert severity="error">Tasks failed to load. Are the APIs running? {error}</Alert>;
+    return <Alert severity="error">Tasks failed to load. Are the APIs available? {error}</Alert>;
   }
 
   const handleChangeStatus = (taskId: string, status: TaskStatus) => {
@@ -65,14 +64,18 @@ export const TaskList = ({ tasks, loading, error, onStatusChange, onUpdateTask, 
                 <Typography gutterBottom variant="h5" component="div">
                   {t.title}
                 </Typography>
-                <Stack direction={"row"} className={styles.center}>
-                  <Typography gutterBottom variant="body1" component="div">
-                    <Button onClick={() => setEditTask(t.id)} title="Edit Task" sx={{ pb: 3 }}>
+                <Typography gutterBottom variant="body1" component="div">
+                  {!t.userId.startsWith("0000") && (
+                    <Button
+                      onClick={() => setEditTask(t.id)}
+                      title="Edit Task"
+                      sx={{ pb: 3, color: "rgba(0,0,0,0.87)" }}
+                    >
                       <EditIcon />
                     </Button>
-                    <Tooltip title={`Task is ${t.status}`}>{statusIcon(t.status)}</Tooltip>
-                  </Typography>
-                </Stack>
+                  )}
+                  <Tooltip title={`Task is ${t.status}`}>{statusIcon(t.status)}</Tooltip>
+                </Typography>
               </Stack>
               <Typography variant="body1" sx={{ color: "text.secondary" }}>
                 {t.description}

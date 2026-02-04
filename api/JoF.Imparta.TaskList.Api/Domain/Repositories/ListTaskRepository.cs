@@ -88,7 +88,7 @@ public class ListTaskRepository : ITaskRepository
         taskList.Add(new TaskItem
         {
             DateCreated = DateTime.UtcNow,
-            Description = "Sample Task Description",
+            Description = "Please create a new task, with a title and description.  This is a sample task - you cannot edit it or delete it, but you can play with its status!  It will be replaced when you create your own.  Remember also to update your profile image :)",
             Id = Guid.NewGuid(),
             Status = TaskStatus.Pending,
             Title = "Sample Task Title",
