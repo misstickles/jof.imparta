@@ -14,3 +14,9 @@ export interface Profile {
   imageBase64: string;
   contentType: string;
 }
+
+export interface User {
+  name: string;
+  subName: string;
+  id: string;
+}
