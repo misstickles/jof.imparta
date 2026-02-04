@@ -30,7 +30,7 @@ interface TaskListProps {
 export const TaskList = ({ tasks, loading, error, onStatusChange, onUpdateTask, onDeleteTask }: TaskListProps) => {
   const [editTask, setEditTask] = useState<string | null>(null);
 
-  if (loading) {
+  if (loading || !tasks) {
     return <Loading />;
   }
 
@@ -67,7 +67,7 @@ export const TaskList = ({ tasks, loading, error, onStatusChange, onUpdateTask, 
                 </Typography>
                 <Stack direction={"row"} className={styles.center}>
                   <Typography gutterBottom variant="body1" component="div">
-                    <Button onClick={() => setEditTask(t.id)} title="Edit Task.  Click to toggle edit" sx={{ pb: 3 }}>
+                    <Button onClick={() => setEditTask(t.id)} title="Edit Task" sx={{ pb: 3 }}>
                       <EditIcon />
                     </Button>
                     <Tooltip title={`Task is ${t.status}`}>{statusIcon(t.status)}</Tooltip>
@@ -76,6 +76,9 @@ export const TaskList = ({ tasks, loading, error, onStatusChange, onUpdateTask, 
               </Stack>
               <Typography variant="body2" sx={{ color: "text.secondary" }}>
                 {t.description}
+              </Typography>
+              <Typography variant="body1" sx={{ color: "text.secondary", mt: 2 }}>
+                {t.createdDate.toLocaleString()}
               </Typography>
               {editTask && (
                 <Stack direction={"row"} sx={{ mt: 5 }}>

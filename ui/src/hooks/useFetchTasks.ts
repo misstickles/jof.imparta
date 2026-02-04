@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { taskApi } from "@/api/taskApi";
-import { mapToTaskItem } from "@/mapping";
+import { mapToTaskItems } from "@/mapping";
 import { Task, TaskStatus } from "@/types";
 import { useEffect, useState } from "react";
 
@@ -18,7 +18,7 @@ export function useFetchTasks(userId: string) {
   const fetchTasksForUser = async (userId: string) => {
     try {
       const response = await taskApi.getAll(userId);
-      const result = response.map((i: any) => mapToTaskItem(i));
+      const result = mapToTaskItems(response);
 
       setTaskList(result);
       setError(null);
@@ -40,7 +40,7 @@ export function useFetchTasks(userId: string) {
         userId: userId,
       });
 
-      const tasks = await taskApi.getAll(userId);
+      const tasks = mapToTaskItems(await taskApi.getAll(userId));
 
       setTaskList(tasks);
       setError(null);
@@ -64,7 +64,7 @@ export function useFetchTasks(userId: string) {
         userId: userId,
       });
 
-      const tasks = await taskApi.getAll(userId);
+      const tasks = mapToTaskItems(await taskApi.getAll(userId));
 
       setTaskList(tasks);
       setError(null);
@@ -87,7 +87,7 @@ export function useFetchTasks(userId: string) {
         userId: userId,
       });
 
-      const tasks = await taskApi.getAll(userId);
+      const tasks = mapToTaskItems(await taskApi.getAll(userId));
 
       setTaskList(tasks);
       setError(null);
@@ -104,7 +104,7 @@ export function useFetchTasks(userId: string) {
 
     try {
       const result = await taskApi.delete({ taskId: taskId, userId: userId });
-      const tasks = await taskApi.getAll(userId);
+      const tasks = mapToTaskItems(await taskApi.getAll(userId));
 
       setDeleteResult(result);
       setTaskList(tasks);
