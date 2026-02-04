@@ -11,15 +11,15 @@ export const TaskStatusCount = ({ tasks }: TaskStatusCountProps) => {
   const statuses = [
     {
       name: "Pending",
-      items: tasks.filter((f) => f.status === "Pending"),
+      items: tasks?.filter((f) => f.status === "Pending") ?? [],
     },
     {
       name: "In Progress",
-      items: tasks.filter((f) => f.status === "In Progress"),
+      items: tasks?.filter((f) => f.status === "In Progress") ?? [],
     },
     {
       name: "Completed",
-      items: tasks.filter((f) => f.status === "Completed"),
+      items: tasks?.filter((f) => f.status === "Completed") ?? [],
     },
   ];
 

@@ -1,34 +1,31 @@
-import { useFetchProfile } from "@/hooks/useFetchProfile";
 import { UserAvatar } from "./UserAvatar";
 import { Loading } from "../Core";
-
-import AddIcon from "@mui/icons-material/Add";
-import { Button, Stack, Typography } from "@mui/material";
-import { Task } from "@/types";
+import { Alert, Stack, Typography } from "@mui/material";
+import { Profile, Task } from "@/types";
 import { TaskStatusCount } from "../Task/TaskStatusCount";
 
 interface HeaderProps {
-  userId: string;
   tasks: Task[];
+  profile: Profile;
+  loading: boolean;
+  error: string | null;
+  onAvatarClick: () => void;
 }
 
-export const Header = ({ userId, tasks }: HeaderProps) => {
-  const { profile, error, loading } = useFetchProfile(userId);
-
+export const Header = ({ tasks, profile, loading, error, onAvatarClick }: HeaderProps) => {
   if (loading) return <Loading size={30} />;
 
   return (
     <>
+      {error && <Alert severity="error">Error: {error}</Alert>}
       <Stack direction={"row"} sx={{ justifyContent: "space-between", alignItems: "center", width: "100%" }}>
-        <UserAvatar profile={profile} />
+        <UserAvatar profile={profile} onAvatarClick={onAvatarClick} />
         <Typography variant="h4" component={"h6"}>
-          Task List Manager
+          My Task List
         </Typography>
-        <Button variant="contained" sx={{ bgcolor: "#245C9B" }} size="large" title="Create a new task">
-          <AddIcon />
-        </Button>
+        <Typography sx={{ width: 80 }}>&nbsp;</Typography>
       </Stack>
-      <TaskStatusCount tasks={tasks} />
+      {tasks && <TaskStatusCount tasks={tasks} />}
     </>
   );
 };

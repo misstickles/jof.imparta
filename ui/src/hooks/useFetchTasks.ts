@@ -1,43 +1,130 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { taskApi } from "@/api/taskApi";
 import { mapToTaskItem } from "@/mapping";
-import { Task } from "@/types";
+import { Task, TaskStatus } from "@/types";
 import { useEffect, useState } from "react";
-
-const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL as string;
 
 export function useFetchTasks(userId: string) {
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   const [taskList, setTaskList] = useState<Task[]>([] as Task[]);
+  const [deleteResult, setDeleteResult] = useState(false);
 
   useEffect(() => {
-    const fetchTasksForUser = async (userId: string) => {
-      console.log("User", userId, apiUrl);
-
-      try {
-        const response = await fetch(`${apiUrl}/Task/${userId}`);
-
-        if (!response.ok) {
-          throw new Error(`HTTP error: Status ${response.status}`);
-        }
-
-        const tasksResponse = await response.json();
-
-        const result = tasksResponse.result.map((i: any) => mapToTaskItem(i));
-
-        setTaskList(result);
-        setError(null);
-      } catch (err: any) {
-        setError(err.message);
-        setTaskList([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchTasksForUser(userId);
   }, [userId]);
 
-  return { taskList, error, loading };
+  const fetchTasksForUser = async (userId: string) => {
+    try {
+      const response = await taskApi.getAll(userId);
+      const result = response.map((i: any) => mapToTaskItem(i));
+
+      setTaskList(result);
+      setError(null);
+    } catch (err: any) {
+      setError(err.message);
+      setTaskList([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleCreateTask = async (title: string, description: string) => {
+    setLoading(true);
+
+    try {
+      await taskApi.create({
+        title: title,
+        description: description,
+        userId: userId,
+      });
+
+      const tasks = await taskApi.getAll(userId);
+
+      setTaskList(tasks);
+      setError(null);
+    } catch (err: any) {
+      setError(err.message);
+      setDeleteResult(false);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleUpdateStatus = async (taskId: string, status: TaskStatus) => {
+    setLoading(true);
+
+    const statusEnum = status === "Pending" ? 0 : status === "In Progress" ? 1 : 2;
+
+    try {
+      await taskApi.update({
+        taskId: taskId,
+        status: statusEnum,
+        userId: userId,
+      });
+
+      const tasks = await taskApi.getAll(userId);
+
+      setTaskList(tasks);
+      setError(null);
+    } catch (err: any) {
+      setError(err.message);
+      setDeleteResult(false);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleUpdateTask = async (taskId: string, title: string, description: string) => {
+    setLoading(true);
+
+    try {
+      await taskApi.update({
+        taskId: taskId,
+        title: title,
+        description: description,
+        userId: userId,
+      });
+
+      const tasks = await taskApi.getAll(userId);
+
+      setTaskList(tasks);
+      setError(null);
+    } catch (err: any) {
+      setError(err.message);
+      setDeleteResult(false);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDeleteTask = async (taskId: string) => {
+    setLoading(true);
+
+    try {
+      const result = await taskApi.delete({ taskId: taskId, userId: userId });
+      const tasks = await taskApi.getAll(userId);
+
+      setDeleteResult(result);
+      setTaskList(tasks);
+      setError(null);
+    } catch (err: any) {
+      setError(err.message);
+      setDeleteResult(false);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return {
+    taskList,
+    deleteResult,
+    error,
+    loading,
+    handleCreateTask,
+    handleUpdateTask,
+    handleUpdateStatus,
+    handleDeleteTask,
+  };
 }

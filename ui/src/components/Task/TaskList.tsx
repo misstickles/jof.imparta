@@ -1,34 +1,63 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Typography from "@mui/material/Typography";
 import { Loading } from "../Core";
-import { Button, Card, CardActions, CardContent, Stack, Tooltip } from "@mui/material";
+import { Alert, Button, Card, CardActions, CardContent, IconButton, Stack, Tooltip } from "@mui/material";
 
 import DoneIcon from "@mui/icons-material/Done";
 import RotateRightIcon from "@mui/icons-material/RotateRight";
 import HourglassTopIcon from "@mui/icons-material/HourglassTop";
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 
-import { TaskStatus } from "@/types";
-import { useFetchTasks } from "@/hooks/useFetchTasks";
+import { Task, TaskStatus } from "@/types";
 import { statusColours } from "@/constants";
 
+import EditIcon from "@mui/icons-material/Edit";
+
+import styles from "@/app/page.module.css";
+import { EditTask } from "../Modify/EditTask";
+
 interface TaskListProps {
-  userId: string;
+  tasks: Task[];
+  loading: boolean;
+  error: string | null;
+  onStatusChange: (taskId: string, status: TaskStatus) => void;
+  onUpdateTask: (taskId: string, title: string, description: string) => void;
+  onDeleteTask: (taskId: string) => void;
 }
 
-export const TaskList = ({ userId }: TaskListProps) => {
-  const { taskList, error, loading } = useFetchTasks(userId);
+export const TaskList = ({ tasks, loading, error, onStatusChange, onUpdateTask, onDeleteTask }: TaskListProps) => {
+  const [editTask, setEditTask] = useState<string | null>(null);
 
   if (loading) {
     return <Loading />;
   }
 
-  console.log("list", taskList);
+  if (error) {
+    return <Alert severity="error">Tasks failed to load. Are the APIs running? {error}</Alert>;
+  }
+
+  const handleChangeStatus = (taskId: string, status: TaskStatus) => {
+    onStatusChange(taskId, status);
+  };
+
+  const handleDeleteTask = (taskId: string) => {
+    onDeleteTask(taskId);
+  };
+
+  const handleEditTask = (taskId: string, title: string, description: string) => {
+    onUpdateTask(taskId, title, description);
+    setEditTask(null);
+  };
+
+  const onCloseEdit = () => {
+    setEditTask(null);
+  };
 
   return (
     <Stack direction={"column"} sx={{ width: "100%" }}>
-      {taskList.map((t) => {
+      {tasks.map((t) => {
         return (
           <Card key={t.id} sx={{ bgcolor: `${statusColours[t.status]}`, mb: 5 }}>
             <CardContent>
@@ -36,13 +65,29 @@ export const TaskList = ({ userId }: TaskListProps) => {
                 <Typography gutterBottom variant="h5" component="div">
                   {t.title}
                 </Typography>
-                <Typography gutterBottom variant="body1" component="div">
-                  <Tooltip title={`Task is ${t.status}`}>{statusIcon(t.status)}</Tooltip>
-                </Typography>
+                <Stack direction={"row"} className={styles.center}>
+                  <Typography gutterBottom variant="body1" component="div">
+                    <Button onClick={() => setEditTask(t.id)} title="Edit Task.  Click to toggle edit" sx={{ pb: 3 }}>
+                      <EditIcon />
+                    </Button>
+                    <Tooltip title={`Task is ${t.status}`}>{statusIcon(t.status)}</Tooltip>
+                  </Typography>
+                </Stack>
               </Stack>
               <Typography variant="body2" sx={{ color: "text.secondary" }}>
                 {t.description}
               </Typography>
+              {editTask && (
+                <Stack direction={"row"} sx={{ mt: 5 }}>
+                  <EditTask
+                    taskId={t.id}
+                    title={t.title}
+                    description={t.description}
+                    onCloseEdit={onCloseEdit}
+                    onClickEditTask={handleEditTask}
+                  />
+                </Stack>
+              )}
             </CardContent>
             <CardActions sx={{ bgcolor: "text.secondary", justifyContent: "space-between" }}>
               <Button
@@ -50,37 +95,30 @@ export const TaskList = ({ userId }: TaskListProps) => {
                 variant="contained"
                 sx={{ bgcolor: "#CC0000" }}
                 title="DANGER!!  Delete this task (no confirmation)."
+                onClick={() => {
+                  handleDeleteTask(t.id);
+                }}
               >
                 Delete Me
               </Button>
               <Stack direction={"row"} gap={2} sx={{ justifyContent: "flex-end" }}>
-                <Button
-                  size="small"
-                  variant="contained"
-                  sx={{ bgcolor: `${statusColours["Pending"]}`, "&.Mui-disabled": { color: "#a1a1a1" } }}
-                  disabled={t.status === "Pending"}
-                  title="Set this task to Pending"
-                >
-                  Is Pending
-                </Button>
-                <Button
-                  size="small"
-                  variant="contained"
-                  sx={{ bgcolor: `${statusColours["In Progress"]}`, "&.Mui-disabled": { color: "#a1a1a1" } }}
-                  disabled={t.status === "In Progress"}
-                  title="Set this task to In Progress"
-                >
-                  Is In Progress
-                </Button>
-                <Button
-                  size="small"
-                  variant="contained"
-                  sx={{ bgcolor: `${statusColours["Completed"]}`, "&.Mui-disabled": { color: "#a1a1a1" } }}
-                  disabled={t.status == "Completed"}
-                  title="Set this task to Completed"
-                >
-                  Is Completed
-                </Button>
+                {["Pending", "In Progress", "Completed"].map((s) => {
+                  return (
+                    <Button
+                      size="small"
+                      variant="contained"
+                      sx={{ bgcolor: `${statusColours[s]}`, "&.Mui-disabled": { color: "#a1a1a1" } }}
+                      disabled={t.status === s}
+                      title={`Set this task to ${s}`}
+                      onClick={() => {
+                        handleChangeStatus(t.id, s as TaskStatus);
+                      }}
+                      key={s}
+                    >
+                      Is {s}
+                    </Button>
+                  );
+                })}
               </Stack>
             </CardActions>
           </Card>
