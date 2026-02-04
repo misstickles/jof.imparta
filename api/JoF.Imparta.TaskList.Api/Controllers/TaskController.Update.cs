@@ -14,7 +14,7 @@ public partial class TaskController
         public Guid TaskId { get; set; }
         public string? Description { get; set; }
         public string? Title { get; set; }
-        public TaskStatus Status { get; set; }
+        public TaskStatus? Status { get; set; }
     }
 
     public class UpdateTaskQueryValidator : AbstractValidator<UpdateTaskQuery>
@@ -29,9 +29,12 @@ public partial class TaskController
             this.RuleFor(q => q.TaskId)
                 .SetValidator(new GuidValidator());
 
-            this.RuleFor(q => q.Status)
-                .Must(m => Enum.IsDefined(m))
-                .WithMessage("Status must be a valid task status (0, 1, 2) or ('Pending', 'InProgress', 'Completed')");
+            this.When((w) => w.Status is not null, () =>
+            {
+                this.RuleFor(q => q.Status)
+                    .IsInEnum()
+                    .WithMessage("Status must be a valid task status (0, 1, 2) or ('Pending', 'InProgress', 'Completed')");
+            });
         }
     }
 

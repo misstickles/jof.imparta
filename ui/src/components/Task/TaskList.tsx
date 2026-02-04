@@ -80,7 +80,7 @@ export const TaskList = ({ tasks, loading, error, onStatusChange, onUpdateTask, 
               <Typography variant="body2" sx={{ color: "text.secondary", mt: 2 }}>
                 {t.createdDate.toLocaleString()}
               </Typography>
-              {editTask && (
+              {editTask && editTask === t.id && (
                 <Stack direction={"row"} sx={{ mt: 5 }}>
                   <EditTask
                     taskId={t.id}

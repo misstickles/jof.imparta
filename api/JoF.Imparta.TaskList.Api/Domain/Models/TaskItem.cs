@@ -10,7 +10,7 @@ public sealed class TaskItem
 
     public string? Description { get; set; }
 
-    public TaskStatus Status { get; set; } = TaskStatus.Pending;
+    public TaskStatus? Status { get; set; }
 
     public DateTime DateCreated { get; set; } = DateTime.UtcNow;
 }

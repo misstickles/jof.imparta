@@ -1,6 +1,5 @@
 ﻿namespace JoF.Imparta.TaskList.Api.Test.Domain.Services;
 
-using JoF.Imparta.TaskList.Api.Domain.Exceptions;
 using JoF.Imparta.TaskList.Api.Domain.Models;
 using JoF.Imparta.TaskList.Api.Domain.Repositories;
 using JoF.Imparta.TaskList.Api.Domain.Services;
