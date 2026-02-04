@@ -16,10 +16,6 @@ export const EditTask = ({ taskId, title, description, onCloseEdit, onClickEditT
   const [newTitle, setNewTitle] = useState<string>(title);
   const [newDescription, setNewDescription] = useState<string>(description);
 
-  const handleClickEditTask = () => {
-    onClickEditTask(taskId, newTitle, newDescription);
-  };
-
   return (
     <Stack direction={"row"} className={styles.center} sx={{ justifyContent: "space-between", width: "100%" }}>
       <TextField
@@ -43,7 +39,7 @@ export const EditTask = ({ taskId, title, description, onCloseEdit, onClickEditT
         value={newDescription}
       />
       <div>
-        <Button onClick={handleClickEditTask} variant="contained">
+        <Button onClick={() => onClickEditTask(taskId, newTitle, newDescription)} variant="contained">
           Update
         </Button>
         <Button onClick={onCloseEdit}>

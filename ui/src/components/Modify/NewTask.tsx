@@ -12,6 +12,9 @@ export const NewTask = ({ onClickNewTask }: NewTaskProps) => {
 
   const handleClickNewTask = () => {
     onClickNewTask(title, desctipion);
+
+    setTitle("");
+    setDescription("");
   };
 
   return (

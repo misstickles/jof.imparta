@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Typography from "@mui/material/Typography";
 import { Loading } from "../Core";
-import { Alert, Button, Card, CardActions, CardContent, IconButton, Stack, Tooltip } from "@mui/material";
+import { Alert, Button, Card, CardActions, CardContent, Stack, Tooltip } from "@mui/material";
 
 import DoneIcon from "@mui/icons-material/Done";
 import RotateRightIcon from "@mui/icons-material/RotateRight";
@@ -16,7 +16,7 @@ import { statusColours } from "@/constants";
 import EditIcon from "@mui/icons-material/Edit";
 
 import styles from "@/app/page.module.css";
-import { EditTask } from "../Modify/EditTask";
+import { EditTask } from "../Modify";
 
 interface TaskListProps {
   tasks: Task[];
@@ -74,10 +74,10 @@ export const TaskList = ({ tasks, loading, error, onStatusChange, onUpdateTask, 
                   </Typography>
                 </Stack>
               </Stack>
-              <Typography variant="body2" sx={{ color: "text.secondary" }}>
+              <Typography variant="body1" sx={{ color: "text.secondary" }}>
                 {t.description}
               </Typography>
-              <Typography variant="body1" sx={{ color: "text.secondary", mt: 2 }}>
+              <Typography variant="body2" sx={{ color: "text.secondary", mt: 2 }}>
                 {t.createdDate.toLocaleString()}
               </Typography>
               {editTask && (

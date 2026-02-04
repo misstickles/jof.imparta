@@ -33,8 +33,8 @@ const Page = ({ params }: { params: Promise<{ userId: string }> }) => {
 
   const { profile, error: profileError, loading: profileLoading, handleUploadAvatar } = useFetchProfile(userId);
 
-  const onAvatarClick = () => {
-    console.log("avatar click");
+  const onAvatarClick = (imageString: string, contentType: string) => {
+    handleUploadAvatar(imageString, contentType);
   };
 
   const onClickNewTask = (title: string, description: string) => {
