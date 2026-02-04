@@ -60,15 +60,11 @@ public class TaskServiceShould
     }
 
     [TestMethod]
-    public void ThrowTaskNotFoundExceptionWhenDeleteByWrongUser()
+    public void ReturnFalseWhenDeleteByWrongUser()
     {
         var newUserId = new Guid("f60a0f85-0974-492c-bfa1-c294d7e3ab9d");
 
-        var created = this.sut.CreateAsync(this.userId, "", "");
-
         var deleted = this.sut.DeleteByIdAsync(this.taskId, newUserId);
-
-        Func<Task> act = async () => await this.sut.DeleteByIdAsync(this.taskId, newUserId);
-        act.ShouldThrow<TaskNotFoundException>();
+        deleted.Result.ShouldBeFalse();
     }
 }
