@@ -116,7 +116,7 @@ public class TaskService(ILogger<TaskService> logger, ITaskRepository repository
             var existing = await repository.GetById(taskId);
             if (description is not null) existing.Description = description;
             if (title is not null) existing.Title = title;
-            if (status is not null) existing.Status = status ?? TaskStatus.Pending;
+            if (status is not null) existing.Status = status ?? existing?.Status ?? TaskStatus.Pending;
 
             response.Result = await repository.UpdateAsync(existing);
         }

@@ -87,7 +87,7 @@ public class ListTaskRepository : ITaskRepository
     {
         taskList.Add(new TaskItem
         {
-            DateCreated = DateTime.Now,
+            DateCreated = DateTime.UtcNow,
             Description = "Sample Task Description",
             Id = Guid.NewGuid(),
             Status = TaskStatus.Pending,

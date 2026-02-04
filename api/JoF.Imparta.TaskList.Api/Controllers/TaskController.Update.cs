@@ -13,7 +13,7 @@ public partial class TaskController
     {
         public Guid TaskId { get; set; }
         public string? Description { get; set; }
-        public required string Title { get; set; }
+        public string? Title { get; set; }
         public TaskStatus Status { get; set; }
     }
 
@@ -28,9 +28,7 @@ public partial class TaskController
         {
             this.RuleFor(q => q.TaskId)
                 .SetValidator(new GuidValidator());
-            this.RuleFor(q => q.Title)
-                .NotEmpty()
-                .NotNull();
+
             this.RuleFor(q => q.Status)
                 .Must(m => Enum.IsDefined(m))
                 .WithMessage("Status must be a valid task status (0, 1, 2) or ('Pending', 'InProgress', 'Completed')");

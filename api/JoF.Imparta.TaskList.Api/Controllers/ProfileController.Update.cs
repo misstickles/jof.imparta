@@ -11,9 +11,9 @@ public partial class ProfileController
 {
     public class CreateProfileQuery
     {
-        public Guid UserId { get; set; }
-        public string ImageBase64 { get; set; } = string.Empty;
-        public string ContentType { get; set; } = string.Empty;
+        public required Guid UserId { get; set; }
+        public required string ImageBase64 { get; set; }
+        public required string ContentType { get; set; }
     }
 
     public class CreateProfileQueryValidator : AbstractValidator<CreateProfileQuery>
@@ -28,6 +28,9 @@ public partial class ProfileController
                 .SetValidator(new UserIdValidator());
             this.RuleFor(q => q.ImageBase64)
                 .SetValidator(new ImageValidator());
+            this.RuleFor(q => q.ContentType)
+                .NotNull()
+                .NotEmpty();
         }
     }
 

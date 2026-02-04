@@ -1,8 +1,18 @@
 using JoF.Imparta.TaskList.Api.Extensions;
 
+var CorsName = "CorsLocalhost";
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: CorsName, policy =>
+    {
+        policy.WithOrigins("http://localhost:3030")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
 
 builder.Services.AddControllers();
 
@@ -22,6 +32,8 @@ if (app.Environment.IsDevelopment())
 app.UseCustomMiddleware();
 
 app.UseHttpsRedirection();
+
+app.UseCors(CorsName);
 
 app.MapControllers();
 
