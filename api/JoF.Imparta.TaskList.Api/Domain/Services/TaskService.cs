@@ -40,6 +40,8 @@ public class TaskService(ILogger<TaskService> logger, ITaskRepository repository
             response.HasErrors = true;
         }
 
+        response.Errors = errors;
+
         return response;
     }
 
@@ -97,6 +99,8 @@ public class TaskService(ILogger<TaskService> logger, ITaskRepository repository
             });
         }
 
+        response.Errors = errors;
+
         return response;
     }
 
@@ -104,7 +108,7 @@ public class TaskService(ILogger<TaskService> logger, ITaskRepository repository
     public async Task<CommonApiResponse> UpdateAsync(Guid taskId, string? title, string? description, TaskStatus? status)
     {
         var errors = new List<CommonApiError>();
-     
+
         var response = new CommonApiResponse
         {
             Errors = null,
@@ -142,6 +146,8 @@ public class TaskService(ILogger<TaskService> logger, ITaskRepository repository
 
             response.HasErrors = true;
         }
+
+        response.Errors = errors;
 
         return response;
     }

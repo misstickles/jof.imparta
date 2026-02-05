@@ -58,8 +58,7 @@ export function useFetchTasks(userId: string) {
     const statusEnum = status === "Pending" ? 0 : status === "In Progress" ? 1 : 2;
 
     try {
-      await taskApi.update({
-        taskId: taskId,
+      await taskApi.update(taskId, {
         status: statusEnum,
         userId: userId,
       });
@@ -80,8 +79,7 @@ export function useFetchTasks(userId: string) {
     setLoading(true);
 
     try {
-      await taskApi.update({
-        taskId: taskId,
+      await taskApi.update(taskId, {
         title: title,
         description: description,
         userId: userId,
@@ -103,7 +101,7 @@ export function useFetchTasks(userId: string) {
     setLoading(true);
 
     try {
-      const result = await taskApi.delete({ taskId: taskId, userId: userId });
+      const result = await taskApi.delete(taskId, userId);
       const tasks = mapToTaskItems(await taskApi.getAll(userId));
 
       setDeleteResult(result);

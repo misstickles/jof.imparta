@@ -1,25 +1,21 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import styles from "../../page.module.css";
+import styles from "@/app/page.module.css";
 import { TaskList } from "@/components/Task";
 import { Header } from "@/components/Header";
 import { useFetchTasks } from "@/hooks/useFetchTasks";
 import { useFetchProfile } from "@/hooks/useFetchProfile";
 import { TaskStatus } from "@/types";
 import { NewTask } from "@/components/Modify";
+import { useSearchParams } from "next/navigation";
+import { Alert } from "@mui/material";
+import Link from "next/link";
 
-const Page = ({ params }: { params: Promise<{ userId: string }> }) => {
-  const [userId, setUserId] = useState<string>("");
+const Page = () => {
+  const searchParams = useSearchParams();
 
-  useEffect(() => {
-    const getUserId = async () => {
-      const { userId } = await params;
-      setUserId(userId);
-    };
-
-    getUserId();
-  }, [userId, params]);
+  const userId = searchParams.get("userId") ?? "";
 
   const {
     taskList,
@@ -29,9 +25,9 @@ const Page = ({ params }: { params: Promise<{ userId: string }> }) => {
     handleDeleteTask,
     handleUpdateStatus,
     handleUpdateTask,
-  } = useFetchTasks(userId);
+  } = useFetchTasks(userId!);
 
-  const { profile, error: profileError, loading: profileLoading, handleUploadAvatar } = useFetchProfile(userId);
+  const { profile, error: profileError, loading: profileLoading, handleUploadAvatar } = useFetchProfile(userId!);
 
   const onAvatarClick = (imageString: string, contentType: string) => {
     handleUploadAvatar(imageString, contentType);
@@ -52,6 +48,18 @@ const Page = ({ params }: { params: Promise<{ userId: string }> }) => {
   const onUpdateTask = (taskId: string, title: string, description: string) => {
     handleUpdateTask(taskId, title, description);
   };
+
+  if (!userId) {
+    return (
+      <Alert severity="error">
+        Please{" "}
+        <Link style={{ color: "blue" }} href={"/"}>
+          login
+        </Link>{" "}
+        before visiting this page.
+      </Alert>
+    );
+  }
 
   return (
     <div className={styles.page}>

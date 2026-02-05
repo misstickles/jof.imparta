@@ -36,6 +36,8 @@ public class ProfileService(ILogger<ProfileService> logger, ITaskRepository repo
             });
         }
 
+        response.Errors = errors;
+
         return response;
     }
 
@@ -64,6 +66,8 @@ public class ProfileService(ILogger<ProfileService> logger, ITaskRepository repo
                 Message = "Unknown Error"
             });
         }
+
+        response.Errors = errors;
 
         return response;
     }

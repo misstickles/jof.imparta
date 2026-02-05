@@ -3,7 +3,7 @@ import { fetchFromApi } from "./fetchFromApi";
 
 export const taskApi = {
   getAll: async (userId: string) =>
-    fetchFromApi(`/Task/${userId}`, {
+    fetchFromApi(`/Task?userId=${userId}`, {
       method: "GET",
     }),
 
@@ -13,15 +13,14 @@ export const taskApi = {
       body: JSON.stringify(request),
     }),
 
-  update: async (request: any) =>
-    fetchFromApi("/Task", {
+  update: async (taskId: string, request: any) =>
+    fetchFromApi(`/Task/${taskId}`, {
       method: "PUT",
       body: JSON.stringify(request),
     }),
 
-  delete: async (request: any) =>
-    fetchFromApi("/Task", {
+  delete: async (taskId: string, userId: string) =>
+    fetchFromApi(`/Task/${taskId}?userId=${userId}`, {
       method: "DELETE",
-      body: JSON.stringify(request),
     }),
 };

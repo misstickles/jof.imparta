@@ -15,7 +15,7 @@ export default function Home() {
   ] as User[];
 
   const onSelectUser = (user: User) => {
-    router.push(`/tasks/${user.id}`);
+    router.push(`/tasks?userId=${user.id}`);
   };
 
   return (

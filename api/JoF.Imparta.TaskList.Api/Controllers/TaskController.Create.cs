@@ -38,7 +38,7 @@ public partial class TaskController
     /// <summary>
     /// Creates a provided task
     /// </summary>
-    /// <param name="userId"></param>
+    /// <param name="query">The create query.</param>
     /// <returns></returns>
     [HttpPost]
     [ProducesResponseType(typeof(CommonApiResponse), StatusCodes.Status200OK)]

@@ -11,7 +11,6 @@ public partial class ProfileController
 {
     public class CreateProfileQuery
     {
-        public required Guid UserId { get; set; }
         public required string ImageBase64 { get; set; }
         public required string ContentType { get; set; }
     }
@@ -24,8 +23,6 @@ public partial class ProfileController
 
         private void SetRules()
         {
-            this.RuleFor(q => q.UserId)
-                .SetValidator(new UserIdValidator());
             this.RuleFor(q => q.ImageBase64)
                 .SetValidator(new ImageValidator());
             this.RuleFor(q => q.ContentType)
@@ -37,16 +34,17 @@ public partial class ProfileController
     /// <summary>
     /// Stores a profile image for the given user.
     /// </summary>
-    /// <param name="query">The <see cref="Query"/>.</param>
+    /// <param name="userId">The user id.</param>
+    /// <param name="query">The update query.</param>
     /// <returns>The base64 string.  An exception is included if not successful.</returns>
-    [HttpPost]
+    [HttpPost("{userId:guid}")]
     [ProducesResponseType(typeof(ProfileItem), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Post([FromBody] CreateProfileQuery query)
+    public async Task<IActionResult> Post([FromRoute] Guid userId, [FromBody] CreateProfileQuery query)
     {
         logger.LogInformation("Uploading profile");
 
-        var profile = await profileService.UploadAsync(query.UserId, query.ImageBase64, query.ContentType);
+        var profile = await profileService.UploadAsync(userId, query.ImageBase64, query.ContentType);
 
         return this.Ok(profile);
     }

@@ -52,12 +52,12 @@ The project consists of two applications, one for the front end (UI) and one for
 <!-- prettier-ignore -->
 Method | Endpoint | Comment | Body Inputs
 --- | --- | --- | ---
-GET | `/Task/{{userId}}` | Get all tasks for the user.
+GET | `/Task?userId={{userId}}` | Get all tasks for the user.
 POST | `/Task` | Create a new task | title / description / userId.
-PUT | `/Task` | Update a task.  Changes depend on the optional inputs. | taskId / status? / title? / description?
-DEL | `/Task` | Delete a user's task. | taskId / userId
+PUT | `/Task/{{taskId}}` | Update a task.  Changes depend on the optional inputs. | status? / title? / description?
+DELETE | `/Task/{{taskId}}?userId={{userId}}` | Delete a user's task.
 GET | `/Profile/{{userId}}` | Get the user's profile avatar.
-POST | `/Profile` | Create a profile (avatar image) for the user. | userId / contentType / imageBase64
+POST | `/Profile/{{userId}}` | Create a profile (avatar image) for the user. | contentType / imageBase64
 
 ## Further Steps
 

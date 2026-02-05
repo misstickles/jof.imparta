@@ -40,7 +40,7 @@ export function useFetchProfile(userId: string) {
     setLoading(true);
 
     try {
-      const result = await profileApi.create({ userId: userId, imageBase64: imageBase64, contentType: contentType });
+      const result = await profileApi.create(userId, { imageBase64: imageBase64, contentType: contentType });
       setProfile(result as Profile);
       setError(null);
     } catch (err: any) {
