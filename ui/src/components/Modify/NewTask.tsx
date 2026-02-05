@@ -18,7 +18,12 @@ export const NewTask = ({ onClickNewTask }: NewTaskProps) => {
   };
 
   return (
-    <Stack direction={"row"} className={styles.center} sx={{ justifyContent: "space-between", width: "100%", pb: 3 }}>
+    <Stack
+      direction={"row"}
+      className={styles.center}
+      sx={{ justifyContent: "space-between", width: "100%", pb: 3, flexWrap: "wrap", rowGap: 2 }}
+      useFlexGap
+    >
       <Typography variant="body1">New Task:</Typography>
       <TextField
         id="taskTitle"
