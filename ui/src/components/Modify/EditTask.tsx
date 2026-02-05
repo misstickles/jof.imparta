@@ -17,7 +17,12 @@ export const EditTask = ({ taskId, title, description, onCloseEdit, onClickEditT
   const [newDescription, setNewDescription] = useState<string>(description);
 
   return (
-    <Stack direction={"row"} className={styles.center} sx={{ justifyContent: "space-between", width: "100%" }}>
+    <Stack
+      direction={"row"}
+      className={styles.center}
+      sx={{ justifyContent: "space-between", width: "100%", flexWrap: "wrap", rowGap: 2 }}
+      useFlexGap
+    >
       <TextField
         id="taskTitle"
         label="New Task Title"

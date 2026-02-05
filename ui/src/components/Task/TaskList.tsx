@@ -107,7 +107,7 @@ export const TaskList = ({ tasks, loading, error, onStatusChange, onUpdateTask, 
               >
                 Delete Me
               </Button>
-              <Stack direction={"row"} gap={2} sx={{ justifyContent: "flex-end" }}>
+              <Stack direction={"row"} gap={2} sx={{ justifyContent: "flex-end", flexWrap: "wrap" }} useFlexGap>
                 {["Pending", "In Progress", "Completed"].map((s) => {
                   return (
                     <Button
