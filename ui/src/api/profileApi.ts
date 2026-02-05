@@ -7,8 +7,8 @@ export const profileApi = {
       method: "GET",
     }),
 
-  create: async (request: any) =>
-    fetchFromApi("/Profile", {
+  create: async (userId: string, request: any) =>
+    fetchFromApi(`/Profile/${userId}`, {
       method: "POST",
       body: JSON.stringify(request),
     }),

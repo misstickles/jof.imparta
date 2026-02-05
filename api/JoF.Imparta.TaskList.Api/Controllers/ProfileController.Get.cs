@@ -14,7 +14,7 @@ public partial class ProfileController
     /// <remarks>Example GUID: 321902d1-1115-42ae-b874-cb9f2d2c1064</remarks>
     [HttpGet("{userId:guid}")]
     [ProducesResponseType(typeof(ProfileItem), StatusCodes.Status200OK)]
-    public async Task<IActionResult> Get(Guid userId)
+    public async Task<IActionResult> Get([FromRoute] Guid userId)
     {
         logger.LogInformation("Getting profile for user");
 

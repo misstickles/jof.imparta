@@ -11,7 +11,6 @@ public partial class TaskController
 {
     public class UpdateTaskQuery
     {
-        public Guid TaskId { get; set; }
         public string? Description { get; set; }
         public string? Title { get; set; }
         public TaskStatus? Status { get; set; }
@@ -26,9 +25,6 @@ public partial class TaskController
 
         private void SetRules()
         {
-            this.RuleFor(q => q.TaskId)
-                .SetValidator(new GuidValidator());
-
             this.When((w) => w.Status is not null, () =>
             {
                 this.RuleFor(q => q.Status)
@@ -41,16 +37,17 @@ public partial class TaskController
     /// <summary>
     /// Updates the given task
     /// </summary>
-    /// <param name="userId"></param>
+    /// <param name="taskId">The task id.</param>
+    /// <param name="query">The update query.</param>
     /// <returns></returns>
-    [HttpPut]
+    [HttpPut("{taskId:guid}")]
     [ProducesResponseType(typeof(CommonApiResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> UpdateTask([FromBody] UpdateTaskQuery query)
+    public async Task<IActionResult> UpdateTask([FromRoute] Guid taskId, [FromBody] UpdateTaskQuery query)
     {
         logger.LogInformation("Updating the task.");
 
-        var result = await taskService.UpdateAsync(query.TaskId, query.Title, query.Description, query.Status);
+        var result = await taskService.UpdateAsync(taskId, query.Title, query.Description, query.Status);
 
         return this.Ok(result);
     }
